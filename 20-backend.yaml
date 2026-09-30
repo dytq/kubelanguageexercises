@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: languageexercisesbackend-deployment
+  namespace: languageexercises-ns
+  labels:
+    app: languageexercisesbackend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: languageexercisesbackend
+  template:
+    metadata:
+      labels:
+        app: languageexercisesbackend
+    spec:
+      containers:
+      - name: languageexercisesbackend-container
+        image: localhost:5000/languageexercises_backend:1.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8081
+        env:
+        - name: SPRING_DATA_MONGODB_URI
+          value: "mongodb://xxx:xxx@mongodb-svc:27017/demo?authSource=admin"
+        - name: SPRING_DATA_MONGODB_URI_CONTROLLER
+          value: "demo"
+        - name: MONGO_DB_DATABASE_NAME
+          value: "demo"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: languageexercisesbackend-svc
+  namespace: languageexercises-ns
+spec:
+  ports:
+  - port: 8081
+    targetPort: 8081
+  selector:
+    app: languageexercisesbackend
+
