@@ -21,7 +21,6 @@ spec:
   ports:
   - port: 27017
     name: database
-  # clusterIP retiré (ou remplace par "type: NodePort" si besoin d'accès externe)
   selector:
     app: mongodb
 ---
